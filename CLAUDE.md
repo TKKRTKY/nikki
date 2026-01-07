@@ -192,3 +192,55 @@ fix: resolve TypeScript errors in chat interface
 docs: update requirements for diary generation
 test: add unit tests for conversation repository
 ```
+
+## Pull Request Creation
+
+### GitHub CLI Usage
+
+Use the `gh` command for automated PR creation:
+
+```bash
+# Push branch and create PR in one command
+git push -u origin feature/task-name && gh pr create --title "feat: description" --body "$(cat <<'EOF'
+## 対応タスク
+
+- [x] `doc/task/{task}.md` の完了条件を全て満たしている
+
+## 変更内容
+
+[List of changes]
+
+## テスト結果
+
+- [x] `npm run test:unit` - 単体テスト合格
+- [x] `npm run test:integration` - 結合テスト合格
+- [x] `npm run test:e2e` - E2Eテスト合格
+- [x] `npm run lint` - ESLint合格
+- [x] `npm run type-check` - TypeScript型チェック合格
+
+## ドキュメント更新
+
+[Documentation changes]
+
+## 動作確認
+
+[Verification steps completed]
+
+## 技術ルール遵守チェック
+
+- [x] アーキテクチャ層分離に準拠
+- [x] TypeScript strict mode準拠
+- [x] テストピラミッド構成準拠
+- [x] コーディング規約準拠
+EOF
+)"
+```
+
+### PR Template Requirements
+
+Follow the template from `/doc/rule/development_process.md` exactly:
+- Task completion verification
+- Test results with all checks passing
+- Documentation update confirmation  
+- Functional verification
+- Technical rule compliance verification
