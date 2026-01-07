@@ -1,17 +1,20 @@
 # コーディング規約
 
 ## 概要
+
 nikkiプロジェクトにおけるコード品質・可読性・保守性を保つための規約。
 
 ## TypeScript規約
 
 ### 基本ルール
+
 - **Strict Mode**: 必須（`strict: true`）
 - **No Any**: `any` 型の使用禁止（`unknown` 使用）
 - **Explicit Return Types**: パブリック関数には戻り値型を明示
 - **Optional Chaining**: null/undefined チェックに `?.` を使用
 
 ### 型定義
+
 ```typescript
 // ✅ Good
 interface ConversationLog {
@@ -33,6 +36,7 @@ interface ConversationLog {
 ```
 
 ### 関数定義
+
 ```typescript
 // ✅ Good
 export async function generateDiary(
@@ -50,12 +54,14 @@ export async function generateDiary(conversations) {
 ## React規約
 
 ### コンポーネント設計
+
 - **関数コンポーネント**: 必須（クラスコンポーネント禁止）
 - **Props Interface**: 全コンポーネントでProps型を定義
 - **Default Export**: コンポーネントファイルは default export
 - **Named Export**: ユーティリティは named export
 
 ### ファイル命名
+
 ```
 components/
 ├── ChatInterface.tsx        # PascalCase
@@ -74,12 +80,13 @@ types/
 ```
 
 ### Hooks使用ルール
+
 ```typescript
 // ✅ Good
 const [settings, setSettings] = useState<LLMSettings | null>(null);
 const { data, error, loading } = useLLMChat();
 
-// ❌ Bad  
+// ❌ Bad
 const [settings, setSettings] = useState(); // 型指定なし
 ```
 
@@ -110,6 +117,7 @@ nikki/
 ## 命名規約
 
 ### 変数・関数
+
 ```typescript
 // ✅ Good
 const conversationLogs = [];
@@ -117,12 +125,13 @@ const generateDiaryPrompt = () => {};
 const isLLMConfigured = true;
 
 // ❌ Bad
-const logs = [];           // 不明確
-const generate = () => {};  // 何を生成するのか不明
-const flag = true;         // 意味が不明
+const logs = []; // 不明確
+const generate = () => {}; // 何を生成するのか不明
+const flag = true; // 意味が不明
 ```
 
 ### 定数
+
 ```typescript
 // ✅ Good
 const DB_NAME = 'nikki-db';
@@ -135,6 +144,7 @@ const max = 3;
 ```
 
 ### 型・インターフェース
+
 ```typescript
 // ✅ Good
 interface LLMSettings {}
@@ -143,17 +153,18 @@ enum LoadingState {
   IDLE = 'idle',
   LOADING = 'loading',
   SUCCESS = 'success',
-  ERROR = 'error'
+  ERROR = 'error',
 }
 
 // ❌ Bad
-interface llmSettings {}   // PascalCaseを使用
-type role = string;        // Union typeを使用すべき
+interface llmSettings {} // PascalCaseを使用
+type role = string; // Union typeを使用すべき
 ```
 
 ## エラーハンドリング
 
 ### 基本方針
+
 - **Error Boundary**: React エラーには Error Boundary 使用
 - **Try-Catch**: 非同期処理には必須
 - **カスタムエラー**: ドメイン固有エラーにはカスタムクラス
@@ -176,9 +187,9 @@ export async function callLLM(prompt: string): Promise<string> {
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
+      body: JSON.stringify({ prompt }),
     });
-    
+
     if (!response.ok) {
       throw new LLMAPIError(
         'LLM API call failed',
@@ -186,7 +197,7 @@ export async function callLLM(prompt: string): Promise<string> {
         await response.text()
       );
     }
-    
+
     return await response.text();
   } catch (error) {
     if (error instanceof LLMAPIError) {
@@ -200,6 +211,7 @@ export async function callLLM(prompt: string): Promise<string> {
 ## パフォーマンス規約
 
 ### React最適化
+
 ```typescript
 // ✅ Good
 const ChatMessage = memo(({ message }: { message: ConversationLog }) => {
@@ -218,6 +230,7 @@ const ChatMessage = ({ message }) => {
 ```
 
 ### DB操作最適化
+
 ```typescript
 // ✅ Good
 const conversations = await db.conversations
@@ -226,14 +239,15 @@ const conversations = await db.conversations
   .limit(100)
   .toArray();
 
-// ❌ Bad  
+// ❌ Bad
 const allConversations = await db.conversations.toArray();
-const todayConversations = allConversations.filter(c => c.date === today);
+const todayConversations = allConversations.filter((c) => c.date === today);
 ```
 
 ## Lint・Format設定
 
 ### ESLint Rules
+
 ```json
 {
   "extends": [
@@ -252,6 +266,7 @@ const todayConversations = allConversations.filter(c => c.date === today);
 ```
 
 ### Prettier設定
+
 ```json
 {
   "semi": true,
@@ -266,6 +281,7 @@ const todayConversations = allConversations.filter(c => c.date === today);
 ## コミット規約
 
 ### コミットメッセージ
+
 ```
 feat: add LLM chat interface
 fix: resolve IndexedDB connection issue
@@ -276,6 +292,7 @@ style: fix ESLint warnings
 ```
 
 ### ブランチ命名
+
 ```
 feature/llm-settings
 fix/indexeddb-connection
