@@ -153,3 +153,19 @@ Every implementation MUST:
 - [ ] Working feature demonstration
 
 **Process Violations = Development Rejection**
+
+## Git Commit Guidelines
+
+### Commit Message Format
+- Use clear, descriptive commit messages
+- **DO NOT include** "🤖 Generated with [Claude Code]" or similar tool attribution
+- Focus on what was changed and why
+- Use conventional commit format when applicable: `feat:`, `fix:`, `docs:`, etc.
+
+### Example Good Commit Messages
+```
+feat: implement LLM settings storage with IndexedDB
+fix: resolve TypeScript errors in chat interface
+docs: update requirements for diary generation
+test: add unit tests for conversation repository
+```
